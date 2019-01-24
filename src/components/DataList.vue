@@ -1,11 +1,20 @@
 <template>
-  <v-list>
-    <template v-for="(item, index) in aliments">
-      <v-list-tile :key="index + 'tile'">
-        <v-list-tile-title>{{item.id}}</v-list-tile-title>
-      </v-list-tile>
-    </template>
-  </v-list>
+  <v-card>
+    <v-card-text>
+      <v-list v-if="aliments.length > 0" two-line>
+        <template v-for="(item, index) in aliments">
+          <v-list-tile :key="index + 'tile'">
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.score }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider :key="index" v-if="index < aliments.length -1"></v-divider>
+        </template>
+      </v-list>
+      <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -21,7 +30,7 @@ export default Vue.extend({
   },
   methods: {
     getData() {
-      fetch(process.env.VUE_APP_BACKEND_ENDPOINT + "/data")
+      fetch(process.env.VUE_APP_BACKEND_ENDPOINT + "/score")
         .then(response => {
           return response.json();
         })
