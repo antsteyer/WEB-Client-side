@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-list v-if="aliments.length > 0" two-line>
+  <v-layout v-if="aliments.length > 0" column align-center justify-space-between fill-height>
+    <v-list two-line>
       <template v-for="(item, index) in alimentsFromPage">
         <v-list-tile v-if="item" :key="index + 'tile'" @click="itemClicked(item)">
           <v-list-tile-content>
@@ -19,16 +19,19 @@
         <v-divider :key="index" v-if="item && index < aliments.length -1"></v-divider>
       </template>
     </v-list>
-    <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
 
     <v-pagination
+      class
       circle
       v-if="aliments.length > 0"
       v-model="page"
       :length="pageCount"
       :total-visible="5"
     ></v-pagination>
-  </div>
+  </v-layout>
+  <v-layout v-else row align-center fill-height justify-center>
+    <v-progress-circular class="progress" indeterminate color="primary"></v-progress-circular>
+  </v-layout>
 </template>
 
 <script lang="ts">
@@ -101,3 +104,21 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style>
+.v-list__tile__sub-title,
+.v-list__tile__title {
+  white-space: normal !important;
+  text-overflow: ellipsis;
+}
+</style>
+
+<style scoped>
+.v-pagination {
+  margin-bottom: 5px;
+}
+
+.progress {
+  margin: 20px;
+}
+</style>
