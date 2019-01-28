@@ -3,7 +3,7 @@
     <v-card-text>
       <v-list v-if="aliments.length > 0" two-line>
         <template v-for="(item, index) in alimentsFromPage">
-          <v-list-tile v-if="item" :key="index + 'tile'">
+          <v-list-tile v-if="item" :key="index + 'tile'" @click="itemClicked(item)">
             <v-list-tile-content>
               <v-list-tile-title>{{ item.name }}</v-list-tile-title>
               <v-list-tile-sub-title>
@@ -88,6 +88,9 @@ export default Vue.extend({
       if (nscore > 6 && nscore <= 7) return "D";
 
       return "E";
+    },
+    itemClicked(item: any) {
+      this.$router.push({ path: `/details/${item.id}` });
     }
   }
 });
