@@ -2,7 +2,12 @@
   <v-layout v-if="aliments.length > 0" column align-center justify-space-between fill-height>
     <v-list two-line>
       <template v-for="(item, index) in alimentsFromPage">
-        <v-list-tile v-if="item" :key="index + 'tile'" @click="itemClicked(item)">
+        <v-list-tile
+          :class="{'activeItem': itemSelected && itemSelected === item.id }"
+          v-if="item"
+          :key="index + 'tile'"
+          @click="itemClicked(item)"
+        >
           <v-list-tile-content>
             <v-list-tile-title>{{ item.name }}</v-list-tile-title>
             <v-list-tile-sub-title>
@@ -41,6 +46,7 @@ export default Vue.extend({
   data() {
     return {
       aliments: [],
+      itemSelected: null,
       page: 1
     };
   },
@@ -99,6 +105,7 @@ export default Vue.extend({
       return "E";
     },
     itemClicked(item: any) {
+      this.itemSelected = item.id;
       this.$router.push({ path: `/details/${item.id}` });
     }
   }
@@ -120,5 +127,9 @@ export default Vue.extend({
 
 .progress {
   margin: 20px;
+}
+
+.activeItem {
+  background: rgba(0, 0, 0, 0.07);
 }
 </style>
