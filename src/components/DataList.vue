@@ -1,32 +1,38 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-list v-if="aliments.length > 0" two-line>
-        <template v-for="(item, index) in alimentsFromPage">
-          <v-list-tile v-if="item" :key="index + 'tile'" @click="itemClicked(item)">
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-              <v-list-tile-sub-title>
-                <v-chip>
-                  <v-avatar
-                    class="white--text"
-                    :color="getColorFromScore(item.score)"
-                  >{{getLetterFromScore(item.score)}}</v-avatar>
-                  {{item.score}}
-                </v-chip>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider :key="index" v-if="item && index < aliments.length -1"></v-divider>
-        </template>
-      </v-list>
-      <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
-    </v-card-text>
-    <v-pagination v-if="aliments.length > 0" v-model="page" :length="pageCount" :total-visible="7"></v-pagination>
-  </v-card>
+  <div>
+    <v-list v-if="aliments.length > 0" two-line>
+      <template v-for="(item, index) in alimentsFromPage">
+        <v-list-tile v-if="item" :key="index + 'tile'" @click="itemClicked(item)">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+            <v-list-tile-sub-title>
+              <v-chip>
+                <v-avatar
+                  class="white--text"
+                  :color="getColorFromScore(item.score)"
+                >{{getLetterFromScore(item.score)}}</v-avatar>
+                {{item.score}}
+              </v-chip>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider :key="index" v-if="item && index < aliments.length -1"></v-divider>
+      </template>
+    </v-list>
+    <v-progress-circular v-else indeterminate color="primary"></v-progress-circular>
+
+    <v-pagination
+      circle
+      v-if="aliments.length > 0"
+      v-model="page"
+      :length="pageCount"
+      :total-visible="5"
+    ></v-pagination>
+  </div>
 </template>
 
 <script lang="ts">
+const numberOfAlimentsPerPage = 10;
 import Vue from "vue";
 export default Vue.extend({
   data() {
@@ -40,13 +46,13 @@ export default Vue.extend({
   },
   computed: {
     alimentsFromPage(): Array<Object> {
-      const start = (this.page - 1) * 20,
-        end = start + 20;
+      const start = (this.page - 1) * numberOfAlimentsPerPage,
+        end = start + numberOfAlimentsPerPage;
       return this.aliments.slice(start, end);
     },
     pageCount(): number {
       let l = this.aliments.length,
-        s = 20;
+        s = numberOfAlimentsPerPage;
       return Math.ceil(l / s);
     }
   },
