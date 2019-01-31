@@ -1,13 +1,39 @@
 <template>
-  <v-layout>
+  <v-container grid-list-md text-xs-center v-if="product">
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card dark color="primary">
+          <v-card-text class="px-0">{{product.name}}</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs6>
+        <v-card dark color="secondary">
+          <v-card-text class="px-0">Ingredients</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs3>
+        <app-nutriments :nutriments="product.nutriments"></app-nutriments>
+        <!--<v-card dark color="primary">
+          <v-card-text class="px-0">Nutriments</v-card-text>
+        </v-card>-->
+      </v-flex>
+      <v-flex xs3>
+        <v-card dark color="primary">
+          <v-card-text class="px-0">Additives</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <!--<v-layout>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card v-if="ingredient">
+      <v-card v-if="product">
         <v-card-title primary-title>
-          <h3 class="headline mb-0">{{ingredient.name}}</h3>
+          <h3 class="headline mb-0">{{product.name}}</h3>
         </v-card-title>
         <v-card-text>
+          <h2>Liste des nutriments:</h2>
           <v-list two-line>
-            <template v-for="(nutriment, index) in ingredient.nutriments">
+            <template v-for="(nutriment, index) in product.nutriments">
               <v-list-tile v-bind:key="index">
                 <v-list-tile-content>
                   <v-list-tile-title>
@@ -21,20 +47,34 @@
               <v-divider v-bind:key="index+'tg'"></v-divider>
             </template>
           </v-list>
+          <h2>Liste des ingredients:</h2>
+          {{product.ingredients}}
+          <h2>Liste des additifs:</h2>
+          <ul>
+            <template v-for="(a, i) in product.additives">
+              <li v-bind:key="i">{{a}}</li>
+            </template>
+            
+          </ul>
         </v-card-text>
       </v-card>
     </v-flex>
-  </v-layout>
+  </v-layout>-->
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Ingredient from "../models/ingredient";
+import Nutriments from '../components/Nutriments.vue';
 import Nutriment from "../models/nutriment";
+import Product from "../models/product";
+import { Ingredient } from "../models/ingredient";
 export default Vue.extend({
+  components: {
+    Nutriments
+  },
   data() {
     return {
-      ingredient: null as Ingredient | null,
+      product: null as Product | null,
       id: ""
     };
   },
@@ -55,8 +95,14 @@ export default Vue.extend({
         })
         .then(json => {
           const nutriments = this.extractNutriments(json[0].nutriments);
-          this.ingredient = new Ingredient(json[0].product_name_fr, nutriments);
-          console.log(this.ingredient);
+          const ingredients = this.extractIngredients(json[0]);
+          const additives = this.extractAdditives(json[0]);
+          this.product = new Product(
+            json[0].product_name,
+            nutriments,
+            json[0].ingredients_text,
+            additives
+          );
         });
     },
     extractNutriments(n: any): Nutriment[] {
@@ -82,6 +128,20 @@ export default Vue.extend({
         nutriments.push(nutriment);
       }
       return nutriments;
+    },
+    extractIngredients(n: any): Ingredient[] {
+      const ingredients: Ingredient[] = [];
+      n.ingredients.forEach((el: any) => {
+        ingredients.push(new Ingredient(el.text));
+      });
+      return ingredients;
+    },
+    extractAdditives(n: any): string[] {
+      const additives: string[] = [];
+      n.additives_tags.forEach((el: any) => {
+        additives.push(el.split(":")[1]);
+      });
+      return additives;
     }
   },
   watch: {

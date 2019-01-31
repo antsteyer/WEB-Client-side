@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <DataList/>
+    Hello World
   </div>
 </template>
 
