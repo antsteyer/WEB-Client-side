@@ -112,15 +112,13 @@ export default Vue.extend({
 });
 </script>
 
-<style>
-.v-list__tile__sub-title,
-.v-list__tile__title {
-  white-space: normal !important;
-  text-overflow: ellipsis;
-}
-</style>
+
 
 <style scoped>
+.v-navigation-drawer .v-list {
+  width: 100%;
+}
+
 .v-pagination {
   margin-bottom: 5px;
 }
