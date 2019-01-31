@@ -42,6 +42,11 @@ export default Vue.extend({
     this.id = this.$route.params.id;
     this.getAliment();
   },
+  computed: {
+    paramsId(): string {
+      return this.$route.params.id;
+    }
+  },
   methods: {
     getAliment() {
       fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/ingredients/${this.id}`)
@@ -77,6 +82,14 @@ export default Vue.extend({
         nutriments.push(nutriment);
       }
       return nutriments;
+    }
+  },
+  watch: {
+    paramsId(val, oldval) {
+      if (val === oldval) return;
+
+      this.id = this.paramsId;
+      this.getAliment();
     }
   }
 });
