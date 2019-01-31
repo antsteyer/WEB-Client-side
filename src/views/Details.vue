@@ -14,7 +14,7 @@
                     <h3>{{ nutriment.name }}</h3>
                   </v-list-tile-title>
                   <v-list-tile-sub-title>
-                    <span>({{ nutriment.value_for_100g }} {{ nutriment.unit }})</span>
+                    <span>(Pour 100g: {{ nutriment.value_for_100g }} {{ nutriment.unit }})</span>
                   </v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
