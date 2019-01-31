@@ -106,7 +106,7 @@ export default Vue.extend({
     },
     itemClicked(item: any) {
       this.itemSelected = item.id;
-      this.$router.push({ path: `/details/${item.id}` });
+      this.$router.push({ path: `/home/details/${item.id}` });
     }
   }
 });

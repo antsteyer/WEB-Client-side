@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Hello World
+    <router-view/>
   </div>
 </template>
 
