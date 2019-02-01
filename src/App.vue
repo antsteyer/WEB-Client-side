@@ -1,10 +1,18 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer app>
+      <v-navigation-drawer app clipped>
         <DataList/>
       </v-navigation-drawer>
-      <!-- <v-toolbar app></v-toolbar> -->
+      <v-toolbar app clipped-left>
+        <v-toolbar-side-icon>
+          <v-icon>fastfood</v-icon>
+        </v-toolbar-side-icon>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn flat to="/home">Accueil</v-btn>
+          <v-btn flat>Recettes</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
       <v-content>
         <v-container fluid>
           <router-view></router-view>

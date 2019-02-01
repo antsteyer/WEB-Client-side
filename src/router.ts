@@ -8,10 +8,18 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
+    { path: "/", redirect: "/home" },
     {
-      path: "/",
+      path: "/home",
       name: "home",
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: "details/:id",
+          name: "details",
+          component: Details
+        }
+      ]
     },
     {
       path: "/about",
@@ -22,11 +30,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
-    {
-      path: "/details/:id",
-      name: "details",
-      component: Details
-    },
+
     {
       path: "/map",
       name: "map",
