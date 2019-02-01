@@ -3,74 +3,44 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-card dark color="primary">
-          <v-card-text class="px-0">{{product.name}}</v-card-text>
+          <v-card-text class="px-0">
+            <h1>{{product.name}}</h1>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs6>
-        <v-card dark color="secondary">
-          <v-card-text class="px-0">Ingredients</v-card-text>
+        <v-card>
+          <v-card-title primary-title>
+            <h2>Ingredients</h2>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            <p v-if="product.ingredients !== ''">{{ product.ingredients }}</p>
+            <h5 v-if="!product.ingredients">Non renseigné...</h5>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs3>
         <app-nutriments :nutriments="product.nutriments"></app-nutriments>
-        <!--<v-card dark color="primary">
-          <v-card-text class="px-0">Nutriments</v-card-text>
-        </v-card>-->
       </v-flex>
       <v-flex xs3>
-        <v-card dark color="primary">
-          <v-card-text class="px-0">Additives</v-card-text>
-        </v-card>
+        <app-additives :additives="product.additives"></app-additives>
       </v-flex>
     </v-layout>
   </v-container>
-  <!--<v-layout>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card v-if="product">
-        <v-card-title primary-title>
-          <h3 class="headline mb-0">{{product.name}}</h3>
-        </v-card-title>
-        <v-card-text>
-          <h2>Liste des nutriments:</h2>
-          <v-list two-line>
-            <template v-for="(nutriment, index) in product.nutriments">
-              <v-list-tile v-bind:key="index">
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    <h3>{{ nutriment.name }}</h3>
-                  </v-list-tile-title>
-                  <v-list-tile-sub-title>
-                    <span>(Pour 100g: {{ nutriment.value_for_100g }} {{ nutriment.unit }})</span>
-                  </v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-divider v-bind:key="index+'tg'"></v-divider>
-            </template>
-          </v-list>
-          <h2>Liste des ingredients:</h2>
-          {{product.ingredients}}
-          <h2>Liste des additifs:</h2>
-          <ul>
-            <template v-for="(a, i) in product.additives">
-              <li v-bind:key="i">{{a}}</li>
-            </template>
-            
-          </ul>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>-->
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Nutriments from '../components/Nutriments.vue';
+import Nutriments from "../components/Nutriments.vue";
+import Additives from "../components/Additives.vue";
 import Nutriment from "../models/nutriment";
 import Product from "../models/product";
 import { Ingredient } from "../models/ingredient";
 export default Vue.extend({
   components: {
-    Nutriments
+    Nutriments,
+    Additives
   },
   data() {
     return {
@@ -95,7 +65,7 @@ export default Vue.extend({
         })
         .then(json => {
           const nutriments = this.extractNutriments(json[0].nutriments);
-          const ingredients = this.extractIngredients(json[0]);
+          //const ingredients = this.extractIngredients(json[0]);
           const additives = this.extractAdditives(json[0]);
           this.product = new Product(
             json[0].product_name,

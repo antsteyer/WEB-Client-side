@@ -1,17 +1,22 @@
 <template>
   <v-card>
     <v-card-title primary-title>
-      <h2>{{nutriments.length}} {{ (nutriments.length === 1) ? 'nutriment' : 'nutriments' }}</h2>
+      <h2>{{nutriments.length}} {{ (nutriments.length === 1) ? 'Nutriment' : 'Nutriments' }}</h2>
     </v-card-title>
     <v-divider></v-divider>
-    <v-list dense>
-      <template v-for="(nutriment, index) in nutriments">
-        <v-list-tile :key="index">
-          <v-list-tile-content>{{nutriment.getName()}}</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{nutriment.getValueFor100g()}} {{nutriment.unit}}</v-list-tile-content>
-        </v-list-tile>
-      </template>
-    </v-list>
+    <v-card-text>
+      <v-list dense v-if="nutriments.length > 0">
+        <template v-for="(nutriment, index) in nutriments">
+          <v-list-tile :key="index">
+            <v-list-tile-content>{{nutriment.getName()}}</v-list-tile-content>
+            <v-list-tile-content
+              class="align-end"
+            >{{nutriment.getValueFor100g()}} {{nutriment.unit}}</v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+      <h5 v-if="nutriments.length === 0">Non renseigné...</h5>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -23,9 +28,7 @@ export default Vue.component("app-nutriments", {
   data() {
     return {};
   },
-  mounted() {
-    console.log(this.nutriments);
-  },
+  mounted() {},
   computed: {},
   methods: {}
 });
