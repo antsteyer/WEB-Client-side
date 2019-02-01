@@ -26,6 +26,9 @@
       <v-flex xs3>
         <app-additives :additives="product.additives"></app-additives>
       </v-flex>
+      <v-flex xs5>
+        <app-add-price :id="id"></app-add-price>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -36,11 +39,13 @@ import Nutriments from "../components/Nutriments.vue";
 import Additives from "../components/Additives.vue";
 import Nutriment from "../models/nutriment";
 import Product from "../models/product";
+import AddPrice from "../components/AddPrice.vue";
 import { Ingredient } from "../models/ingredient";
 export default Vue.extend({
   components: {
     Nutriments,
-    Additives
+    Additives,
+    AddPrice
   },
   data() {
     return {
