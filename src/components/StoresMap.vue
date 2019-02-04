@@ -1,11 +1,11 @@
 <template>
   <GmapMap
-    :center="{lat:10, lng:10}"
-    :zoom="7"
+    :center="{lat:parseFloat(this.lat), lng:parseFloat(this.lon)}"
+    :zoom="15"
     map-type-id="terrain"
-    style="width: 500px; height: 500px"
+    style="width: 100%; height: 400px"
   >
-    <!-- <GmapMarker
+    <!--<GmapMarker
     :key="index"
     v-for="(m, index) in markers"
     :position="m.position"
@@ -18,5 +18,21 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({});
+export default Vue.component('app-store-map', {
+  props: ['lat', 'lon'],
+  data() {
+    return {
+    };
+  },
+  watch: {
+  },
+  methods: {
+  },
+  mounted() {
+    /*this.$root.$on('update-coordinates', (data) => {
+      this.lat = data.lat;
+      this.lon = data.lon;
+    });*/
+  }
+});
 </script>

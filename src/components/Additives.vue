@@ -27,7 +27,6 @@ export default Vue.component("app-additives", {
     return {};
   },
   mounted() {
-    console.log(this.additives);
   },
   computed: {},
   methods: {},

@@ -51,8 +51,8 @@
             </v-flex>
           </v-layout>
           <v-layout align-center justify-center row fill-height>
-            <v-btn color="error" @click="reset">Reset Form</v-btn>
-            <v-btn :disabled="!valid" color="success" @click="validate">Validate</v-btn>
+            <v-btn color="error" @click="reset">Réinitialiser</v-btn>
+            <v-btn :disabled="!valid" color="success" @click="validate">Valider</v-btn>
           </v-layout>
         </v-container>
       </v-form>
@@ -125,9 +125,9 @@ export default Vue.component("app-add-price", {
               name: this.shop_name,
               address: this.shop_address,
               longitude: this.shop_lon,
-              latitude: this.shop_lat
+              latitude: this.shop_lat,
+              price: this.price
             },
-            price: this.price
           })
         }
       );
@@ -135,6 +135,7 @@ export default Vue.component("app-add-price", {
       if (content === true) {
         this.snackbar = true;
         this.reset();
+        this.$root.$emit('price-added-event');
       } else {
           console.log('Something went wrong')
       }

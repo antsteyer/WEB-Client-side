@@ -72,7 +72,6 @@ export default Vue.extend({
           return response.json();
         })
         .then(json => {
-          console.log("Data Received", json);
           this.aliments = json.sort(function(a: any, b: any) {
             const scoreA = parseFloat(a.score);
             const scoreB = parseFloat(b.score);

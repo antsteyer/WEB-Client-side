@@ -29,6 +29,9 @@
       <v-flex xs5>
         <app-add-price :id="id"></app-add-price>
       </v-flex>
+      <v-flex xs7>
+        <app-shops :shops="product.shops"></app-shops>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -40,12 +43,15 @@ import Additives from "../components/Additives.vue";
 import Nutriment from "../models/nutriment";
 import Product from "../models/product";
 import AddPrice from "../components/AddPrice.vue";
+import Shops from "../components/Shops.vue";
 import { Ingredient } from "../models/ingredient";
+import { Shop } from "../models/shop";
 export default Vue.extend({
   components: {
     Nutriments,
     Additives,
-    AddPrice
+    AddPrice,
+    Shops
   },
   data() {
     return {
@@ -56,6 +62,8 @@ export default Vue.extend({
   mounted() {
     this.id = this.$route.params.id;
     this.getAliment();
+
+    this.$root.$on('price-added-event', () => this.getAliment())
   },
   computed: {
     paramsId(): string {
@@ -70,13 +78,14 @@ export default Vue.extend({
         })
         .then(json => {
           const nutriments = this.extractNutriments(json[0].nutriments);
-          //const ingredients = this.extractIngredients(json[0]);
           const additives = this.extractAdditives(json[0]);
+          const shops = this.extractShops(json[0]);
           this.product = new Product(
             json[0].product_name,
             nutriments,
             json[0].ingredients_text,
-            additives
+            additives,
+            shops
           );
         });
     },
@@ -117,6 +126,15 @@ export default Vue.extend({
         additives.push(el.split(":")[1]);
       });
       return additives;
+    },
+    extractShops(n: any): Shop[] {
+      const shops: Shop[] = [];
+      if (!n.shops) return shops;
+      n.shops.forEach((el: any) => {
+        const shop = new Shop(el.name, el.address, el.latitude, el.longitude, el.price);
+        shops.push(shop);
+      });
+      return shops;
     }
   },
   watch: {
