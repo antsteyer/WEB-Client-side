@@ -5,7 +5,7 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <v-form ref="form" v-model="valid">
         <v-container>
           <v-layout align-center justify-center column fill-height>
             <v-flex xs12 sm6>
