@@ -2,7 +2,8 @@
   <div id="app">
     <v-app>
       <v-navigation-drawer app clipped>
-        <DataList/>
+        <data-list v-show="routePath.includes('home')"/>
+        <recipe-list v-show="routePath.includes('recipe')"/>
       </v-navigation-drawer>
       <v-toolbar app clipped-left>
         <v-toolbar-side-icon>
@@ -10,7 +11,7 @@
         </v-toolbar-side-icon>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn flat to="/home">Accueil</v-btn>
-          <v-btn flat>Recettes</v-btn>
+          <v-btn flat to="/recipe">Recettes</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-content>
@@ -26,9 +27,16 @@
 <script lang="ts">
 import Vue from "vue";
 import DataList from "./components/DataList.vue";
+import RecipeList from "./components/RecipeList.vue";
 export default Vue.extend({
   components: {
-    DataList
+    DataList,
+    RecipeList
+  },
+  computed: {
+    routePath(): string {
+      return this.$route.path;
+    }
   }
 });
 </script>
