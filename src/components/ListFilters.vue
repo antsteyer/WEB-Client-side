@@ -6,7 +6,7 @@
       placeholder="Filtrer la liste..."
       @input="onUserSearch"
     ></v-text-field>
-    <v-layout row align-center justify-center>
+    <v-layout v-if="filterByScore" row align-center justify-center>
       <v-btn-toggle dark v-model="scoreToShow" mandatory>
         <v-tooltip bottom>
           <v-btn slot="activator" icon dark color="grey">#</v-btn>
@@ -23,6 +23,12 @@
 </template>
 <script lang="ts">
 export default {
+  props: {
+    filterByScore: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       search: null as string | null,
@@ -35,7 +41,7 @@ export default {
     }
   },
   watch: {
-    scoreToShow(val) {
+    scoreToShow(val: string) {
       this.$emit("filterListByScore", val);
     }
   }
