@@ -1,6 +1,7 @@
 <template>
-  <v-layout v-if="aliments.length > 0" column align-center justify-space-between fill-height>
-    <v-list two-line>
+  <v-layout v-if="aliments.length > 0" column align-center justify-start fill-height>
+    <list-filters @filterListByText="onFilterByText" @filterListByScore="onFilterByScore"/>
+    <v-list two-line v-if="alimentsFiltered.length > 0">
       <template v-for="(item, index) in alimentsFromPage">
         <v-list-tile
           :class="{'activeItem': itemSelected && itemSelected === item.id }"
@@ -21,14 +22,14 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-divider :key="index" v-if="item && index < aliments.length -1"></v-divider>
+        <v-divider :key="index" v-if="item && index < alimentsFiltered.length -1"></v-divider>
       </template>
     </v-list>
-
+    <span v-else>Aucun résultat</span>
     <v-pagination
       class
       circle
-      v-if="aliments.length > 0"
+      v-if="alimentsFiltered.length > 0 && pageCount > 1"
       v-model="page"
       :length="pageCount"
       :total-visible="5"
@@ -40,15 +41,21 @@
 </template>
 
 <script lang="ts">
-const numberOfAlimentsPerPage = 10;
+const numberOfAlimentsPerPage = 9;
 import Vue from "vue";
+import ListFilters from "@/components/ListFilters.vue";
+import Product from "@/models/product";
 export default Vue.extend({
   data() {
     return {
       aliments: [],
       itemSelected: null,
+      alimentsFiltered: [],
       page: 1
     };
+  },
+  components: {
+    ListFilters
   },
   mounted() {
     this.getData();
@@ -57,10 +64,10 @@ export default Vue.extend({
     alimentsFromPage(): Array<Object> {
       const start = (this.page - 1) * numberOfAlimentsPerPage,
         end = start + numberOfAlimentsPerPage;
-      return this.aliments.slice(start, end);
+      return this.alimentsFiltered.slice(start, end);
     },
     pageCount(): number {
-      let l = this.aliments.length,
+      let l = this.alimentsFiltered.length,
         s = numberOfAlimentsPerPage;
       return Math.ceil(l / s);
     }
@@ -83,6 +90,7 @@ export default Vue.extend({
             }
             return 0;
           });
+          this.alimentsFiltered = this.aliments;
         });
     },
     getColorFromScore(score: string) {
@@ -106,6 +114,44 @@ export default Vue.extend({
     itemClicked(item: any) {
       this.itemSelected = item.id;
       this.$router.push({ path: `/home/details/${item.id}` });
+    },
+    onFilterByText(search: string) {
+      this.alimentsFiltered = this.aliments.filter(
+        (a: any) => a.name && a.name.includes(search)
+      );
+    },
+    onFilterByScore(val: number) {
+      // Val vaut entre 0 (Tous) et 4 (E)
+
+      if (val === 0) {
+        this.alimentsFiltered = this.aliments;
+        return;
+      }
+
+      let letterFromScore = "";
+      switch (val) {
+        case 1:
+          letterFromScore = "A";
+          break;
+        case 2:
+          letterFromScore = "B";
+          break;
+        case 3:
+          letterFromScore = "C";
+          break;
+        case 4:
+          letterFromScore = "D";
+          break;
+        case 5:
+          letterFromScore = "E";
+          break;
+        default:
+          letterFromScore = "A";
+          break;
+      }
+      this.alimentsFiltered = this.aliments.filter(
+        (a: any) => this.getLetterFromScore(a.score) === letterFromScore
+      );
     }
   }
 });
