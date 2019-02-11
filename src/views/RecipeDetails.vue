@@ -14,13 +14,14 @@
           <p>{{recipe.description}}</p>
           <h2>Preparation:</h2>
           <p>{{recipe.preparation}}</p>
+          <h2>Ingredients:</h2>
+          <ul>
+            <li v-for="(ingredient, index) of recipe.ingredients" :key="index">
+              <a @click.stop="openDialogWithIngredients(ingredient)">{{ingredient}}</a>
+            </li>
+          </ul>
           <h2>Commentaires:</h2>
-          <v-list
-            subheader
-            three-line
-            v-for="(comment, index) of recipe.comments"
-            v-bind:key="index"
-          >
+          <v-list two-line v-for="(comment, index) of recipe.comments" v-bind:key="index">
             <v-list-tile>
               <v-list-tile-content>
                 <v-list-tile-title>Commentaire {{index + 1}}</v-list-tile-title>
@@ -28,7 +29,7 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-          <v-textarea outline name="input-7-4" label="Outline textarea" v-model="comment"></v-textarea>
+          <v-textarea outline name="input-7-4" label="Votre commentaire" v-model="comment"></v-textarea>
           <v-btn color="success" @click="postComment">Post</v-btn>
         </v-card-text>
       </v-card>
@@ -36,6 +37,20 @@
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
       </v-layout>
     </v-flex>
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>{{selectedIngredient}}</v-card-title>
+
+        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat @click="dialog = false">Fermer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 <script lang="ts">
@@ -48,7 +63,9 @@ export default Vue.extend({
       id: "" as string,
       recipe: null as Recette | null,
       noImgUrl: "http://www.djerba-troc.com/wp-content/uploads/no-image.png",
-      comment: ""
+      comment: "",
+      dialog: false,
+      selectedIngredient: ""
     };
   },
 
@@ -100,6 +117,32 @@ export default Vue.extend({
         }
       );
       const content = await response.json();
+      this.getRecipe();
+      this.comment = "";
+    },
+    openDialogWithIngredients(ingredient: string) {
+      this.selectedIngredient = ingredient;
+      this.dialog = true;
+      this.getProductWithIngredient(ingredient.toLowerCase());
+    },
+    getProductWithIngredient(ingredient: string) {
+      fetch("https://web-server-client.herokuapp.com/ingredients", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ingredients: [ingredient],
+          additives_tags: []
+        })
+      })
+        .then((res: any) => {
+          return res.json();
+        })
+        .then(json => {
+          console.log(json);
+        });
     }
   },
   watch: {
@@ -113,7 +156,7 @@ export default Vue.extend({
   }
 });
 </script>
-<style>
+<style scoped>
 .v-card__text {
   text-align: justify;
 }
