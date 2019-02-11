@@ -115,7 +115,7 @@ export default Vue.component("app-add-price", {
     },
     async sendFormData() {
       const response = await fetch(
-        "https://web-server-client.herokuapp.com/addPrice",
+        "https://web-server-client.herokuapp.com/price",
         {
           method: "POST",
           headers: {
