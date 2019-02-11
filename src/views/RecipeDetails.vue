@@ -28,8 +28,7 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-          {{comment}}
-          <v-textarea outline name="input-7-4" label="Outline textarea" v-model="comment"></v-textarea>\
+          <v-textarea outline name="input-7-4" label="Outline textarea" v-model="comment"></v-textarea>
           <v-btn color="success" @click="postComment">Post</v-btn>
         </v-card-text>
       </v-card>
