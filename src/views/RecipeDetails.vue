@@ -41,7 +41,24 @@
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{selectedIngredient}}</v-card-title>
 
-        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+        <v-card-text>
+          <v-layout align-center justify-center v-if="loadProducts">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          </v-layout>
+
+          <v-list v-if="!loadProducts && productList.length > 0">
+            <template v-for="(product, index) in productList">
+              <v-list-tile :key="index" @click="goToProductDetails(product.id)">
+                <v-list-tile-content>
+                  <v-list-tile-title>{{product.name}}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-list>
+          <span
+            v-if="!loadProducts && productList.length === 0"
+          >Pas de produits associés à cet ingrédient</span>
+        </v-card-text>
 
         <v-divider></v-divider>
 
@@ -65,7 +82,9 @@ export default Vue.extend({
       noImgUrl: "http://www.djerba-troc.com/wp-content/uploads/no-image.png",
       comment: "",
       dialog: false,
-      selectedIngredient: ""
+      selectedIngredient: "",
+      loadProducts: false,
+      productList: [] as Array<any>
     };
   },
 
@@ -127,6 +146,7 @@ export default Vue.extend({
       this.getProductWithIngredient(ingredient.toLowerCase());
     },
     getProductWithIngredient(ingredient: string) {
+      this.loadProducts = true;
       fetch("https://web-server-client.herokuapp.com/ingredients", {
         method: "POST",
         headers: {
@@ -142,8 +162,16 @@ export default Vue.extend({
           return res.json();
         })
         .then(json => {
-          console.log(json);
+          this.productList = [];
+          json.forEach((el: any) => {
+            this.productList.push({ name: el.product_name, id: el.id });
+          });
+          this.loadProducts = false;
         });
+    },
+    goToProductDetails(id: string) {
+      this.dialog = false;
+      this.$router.push({ path: `/home/details/${id}` });
     }
   },
   watch: {
