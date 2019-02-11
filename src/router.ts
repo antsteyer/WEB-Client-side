@@ -29,7 +29,7 @@ export default new Router({
       component: Recipe,
       children: [
         {
-          path: "details",
+          path: "details/:id",
           name: "recipedetails",
           component: RecipeDetails
         },
