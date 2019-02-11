@@ -49,7 +49,7 @@ export default Vue.extend({
 
   computed: {
     recipe(): Recette {
-      return this.$route.params.recipe as Recette;
+      return (this.$route.params as any).recipe as Recette;
     }
   },
 
