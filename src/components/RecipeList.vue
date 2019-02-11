@@ -89,7 +89,7 @@ export default Vue.extend({
     },
     itemClicked(item: any) {
       this.itemSelected = item.id;
-      this.$router.push({ path: `/recipe/details/${item.id}` });
+      this.$router.push({ path: `/recipe/details/${item._id}` });
     },
     onFilterByText(search: string) {
       this.recipesFiltered = this.recipes.filter(
