@@ -3,6 +3,7 @@
     <h2>Création de recette</h2>
 
     <v-text-field
+      outline
       class="formItem"
       v-model="name"
       :counter="30"
@@ -13,6 +14,7 @@
     ></v-text-field>
 
     <v-textarea
+      outline
       class="formItem"
       v-model="description"
       placeholder="Une magnifique recette"
@@ -24,6 +26,7 @@
     ></v-textarea>
 
     <v-text-field
+      outline
       class="formItem"
       v-model="image"
       :rules="imageRules"
@@ -32,6 +35,7 @@
     ></v-text-field>
 
     <v-textarea
+      outline
       class="formItem"
       v-model="preparation"
       auto-grow
@@ -43,6 +47,7 @@
     ></v-textarea>
 
     <v-combobox
+      outline
       class="formItem"
       label="Liste des ingrédients"
       :rules="ingredientsRules"
