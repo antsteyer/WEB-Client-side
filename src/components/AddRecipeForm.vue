@@ -52,15 +52,19 @@
       deletable-chips
     ></v-combobox>
 
-    <v-btn :disabled="!valid" color="success" @click="validate">Créer</v-btn>
+    <v-btn :disabled="!valid" color="success" @click="validate" :loading="loading">Créer</v-btn>
 
     <v-btn color="error" @click="reset">Réinitialiser</v-btn>
+
+    <v-alert v-model="error" type="error">Erreur lors de la création de la recette</v-alert>
   </v-form>
 </template>
 <script>
 export default {
   data: () => ({
     valid: true,
+    loading: false,
+    error: false,
     name: "",
     nameRules: [
       v => !!v || "Nom requis",
@@ -88,9 +92,35 @@ export default {
   }),
 
   methods: {
-    validate() {
+    async validate() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;
+        this.loading = true;
+        const response = await fetch(
+          "https://web-server-client.herokuapp.com/createRecipe",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              name: this.name,
+              description: this.description,
+              image: this.image,
+              preparation: this.preparation,
+              ingredients: this.ingredients
+            })
+          }
+        ).catch(error => {
+          console.log("error", error);
+          this.error = true;
+        });
+
+        this.loading = false;
+        if (!this.error) {
+          this.$router.push({ path: "/recipe" });
+        }
       }
     },
     reset() {
