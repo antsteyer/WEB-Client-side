@@ -42,6 +42,8 @@
         <v-card-title class="headline grey lighten-2" primary-title>{{selectedIngredient}}</v-card-title>
 
         <v-card-text>
+          <h3>Liste des produits contenant cet ingrédient</h3>
+
           <v-layout align-center justify-center v-if="loadProducts">
             <v-progress-circular indeterminate color="primary"></v-progress-circular>
           </v-layout>
