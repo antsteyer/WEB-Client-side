@@ -14,7 +14,7 @@
                 label="Nom du magasin"
                 placeholder="Entrer le nom d'un magasin"
                 outline
-                v-on:change="filterByName(shops, name)"
+                @input="filterByName"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -87,7 +87,7 @@ export default Vue.component("app-shops", {
       shopName: "",
       latPolytech: 43.615807,
       lonPolytech: 7.073046,
-      displayedShops: []
+      displayedShops: [] as Shop[]
     };
   },
   watch: {
@@ -106,11 +106,16 @@ export default Vue.component("app-shops", {
       this.displayMap = true;
     },
 
-    degreesToRadians(degrees) {
+    degreesToRadians(degrees: number) {
       return (degrees * Math.PI) / 180;
     },
 
-    distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+    distanceInKmBetweenEarthCoordinates(
+      lat1: number,
+      lon1: number,
+      lat2: number,
+      lon2: number
+    ) {
       var earthRadiusKm = 6371;
 
       var dLat = this.degreesToRadians(lat2 - lat1);
@@ -151,10 +156,15 @@ export default Vue.component("app-shops", {
       this.displayedShops = updatedShops;
     },
 
-    filterByName(shops: Shop[], name: string): void {
+    filterByName(name: string): void {
+      if (name === "") {
+        this.displayedShops = this.shops;
+        return;
+      }
       const updatedShops: Shop[] = [];
-      shops.forEach((el: Shop) => {
-        if (el.name.toLowerCase().includes(name.toLowerCase())) updatedShops.push(el);
+      this.shops.forEach((el: Shop) => {
+        if (el.name.toLowerCase().includes(name.toLowerCase()))
+          updatedShops.push(el);
       });
       this.displayedShops = updatedShops;
     }

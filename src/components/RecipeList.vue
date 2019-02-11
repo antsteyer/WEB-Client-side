@@ -4,7 +4,7 @@
     <v-list two-line v-if="recipesFiltered.length > 0">
       <template v-for="(item, index) in recipesFromPage">
         <v-list-tile
-          :class="{'activeItem': itemSelected && itemSelected === item.id }"
+          :class="{'activeItem': itemSelected && itemSelected === item._id }"
           v-if="item"
           :key="index + 'tile'"
           @click="itemClicked(item)"
@@ -69,7 +69,7 @@ export default Vue.extend({
   methods: {
     getData() {
       this.loading = true;
-      fetch(process.env.VUE_APP_BACKEND_ENDPOINT + "/getrecipe")
+      fetch(process.env.VUE_APP_BACKEND_ENDPOINT + "/getrecipes")
         .then(response => {
           return response.json();
         })
@@ -88,8 +88,8 @@ export default Vue.extend({
         });
     },
     itemClicked(item: any) {
-      this.itemSelected = item.id;
-      this.$router.push({ path: `/recipe/details/${item._id}` });
+      this.itemSelected = item._id;
+      this.$router.push({name: 'recipedetails', params: {recipe: item}});
     },
     onFilterByText(search: string) {
       this.recipesFiltered = this.recipes.filter(

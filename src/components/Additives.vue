@@ -26,12 +26,11 @@ export default Vue.component("app-additives", {
   data() {
     return {};
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {},
   methods: {},
   filters: {
-    capitalize: function(value) {
+    capitalize: function(value: string) {
       if (!value) return "";
       value = value.toString();
       return value.toUpperCase();

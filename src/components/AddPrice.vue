@@ -47,7 +47,14 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
-              <v-text-field v-model="price" :rules="price_rules" label="Prix" single-line outline type="number"></v-text-field>
+              <v-text-field
+                v-model="price"
+                :rules="price_rules"
+                label="Prix"
+                single-line
+                outline
+                type="number"
+              ></v-text-field>
             </v-flex>
           </v-layout>
           <v-layout align-center justify-center row fill-height>
@@ -57,19 +64,12 @@
         </v-container>
       </v-form>
       <v-snackbar
-      v-model="snackbar"
-      :color="'success'"
-      :timeout="3000"
-    >
-      Votre prix a bien été pris en compte !
-      <v-btn
-        dark
-        flat
-        @click="snackbar = false"
-      >
-        Fermer
-      </v-btn>
-    </v-snackbar>
+        v-model="snackbar"
+        :color="'success'"
+        :timeout="3000"
+      >Votre prix a bien été pris en compte !
+        <v-btn dark flat @click="snackbar = false">Fermer</v-btn>
+      </v-snackbar>
     </v-card-text>
   </v-card>
 </template>
@@ -85,15 +85,18 @@ export default Vue.component("app-add-price", {
     return {
       valid: true,
       shop_name: "",
-      shop_name_rules: [v => !!v || "Nom du magasin requis"],
+      shop_name_rules: [(v: any) => !!v || "Nom du magasin requis"],
       shop_address: "",
-      shop_address_rules: [v => !!v || "Addresse requise"],
+      shop_address_rules: [(v: any) => !!v || "Addresse requise"],
       shop_lat: "",
-      shop_lat_rules: [v => !!v || "Latitude requise"],
+      shop_lat_rules: [(v: any) => !!v || "Latitude requise"],
       shop_lon: "",
-      shop_lon_rules: [v => !!v || "Longitude requise"],
+      shop_lon_rules: [(v: any) => !!v || "Longitude requise"],
       price: "",
-      price_rules: [v => !!v || "Prix requis", v => (v && v > 0) || "Le prix ne peux pas etre negatif"],
+      price_rules: [
+        (v: any) => !!v || "Prix requis",
+        (v: any) => (v && v > 0) || "Le prix ne peux pas etre negatif"
+      ],
       snackbar: false
     };
   },
@@ -101,14 +104,14 @@ export default Vue.component("app-add-price", {
   computed: {},
   methods: {
     validate() {
-      if (this.$refs.form.validate()) {
+      if ((this.$refs.form as any).validate()) {
         this.sendFormData();
       } else {
         console.log("Not valid!");
       }
     },
     reset() {
-      this.$refs.form.reset();
+      (this.$refs.form as any).reset();
     },
     async sendFormData() {
       const response = await fetch(
@@ -127,7 +130,7 @@ export default Vue.component("app-add-price", {
               longitude: this.shop_lon,
               latitude: this.shop_lat,
               price: this.price
-            },
+            }
           })
         }
       );
@@ -135,12 +138,14 @@ export default Vue.component("app-add-price", {
       if (content === true) {
         this.snackbar = true;
         this.reset();
-        this.$root.$emit('price-added-event');
+        this.$root.$emit("price-added-event");
       } else {
-          console.log('Something went wrong')
+        console.log("Something went wrong");
       }
     },
-    isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); } 
+    isNumber(n: string) {
+      return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+    }
   }
 });
 </script>
