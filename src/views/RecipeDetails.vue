@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
-      <v-card>
+      <v-card v-if="recipe">
         <v-img :src="recipe.image" alt="img" aspect-ratio="2.75"></v-img>
 
         <v-card-title primary-title>
@@ -32,6 +32,9 @@
           <v-btn color="success" @click="postComment">Post</v-btn>
         </v-card-text>
       </v-card>
+      <v-layout v-if="loading" row align-center justify-center style="height: 800px">
+        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
@@ -41,19 +44,47 @@ import Recette from "../models/recette";
 export default Vue.extend({
   data: () => {
     return {
+      loading: false,
+      id: "" as string,
+      recipe: null as Recette | null,
       noImgUrl: "http://www.djerba-troc.com/wp-content/uploads/no-image.png",
       comment: ""
     };
   },
 
   computed: {
-    recipe(): Recette {
-      return (this.$route.params as any).recipe as Recette;
+    paramsId(): string {
+      return this.$route.params.id;
     }
   },
-
+  mounted() {
+    this.getRecipe();
+  },
   methods: {
+    async getRecipe() {
+      this.loading = true;
+      await fetch(`${process.env.VUE_APP_BACKEND_ENDPOINT}/getRecipe`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: this.id
+        })
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(json => {
+          this.loading = false;
+          this.recipe = json;
+        });
+
+      this.loading = false;
+    },
     async postComment() {
+      if (!this.recipe) return;
       const response = await fetch(
         "https://web-server-client.herokuapp.com/addComments",
         {
@@ -69,6 +100,15 @@ export default Vue.extend({
         }
       );
       const content = await response.json();
+    }
+  },
+  watch: {
+    paramsId(val, oldval) {
+      if (val === oldval) return;
+
+      this.id = this.paramsId;
+      this.recipe = null;
+      this.getRecipe();
     }
   }
 });
