@@ -75,6 +75,7 @@ export default Vue.extend({
     }
   },
   mounted() {
+    this.id = this.paramsId;
     this.getRecipe();
   },
   methods: {
