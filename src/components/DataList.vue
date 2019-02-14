@@ -116,7 +116,6 @@ export default Vue.extend({
       this.$router.push({ path: `/home/details/${item.id}` });
     },
     onFilterByText(search: string) {
-      console.log(this.aliments);
       this.alimentsFiltered = this.aliments.filter(
         (a: any) =>
           (a.name && a.name.toLowerCase().includes(search.toLowerCase())) ||
