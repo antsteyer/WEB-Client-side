@@ -116,12 +116,12 @@ export default Vue.extend({
       this.$router.push({ path: `/home/details/${item.id}` });
     },
     onFilterByText(search: string) {
+      console.log(this.aliments);
       this.alimentsFiltered = this.aliments.filter(
         (a: any) =>
           (a.name && a.name.toLowerCase().includes(search.toLowerCase())) ||
-          (a.ingredients && a.ingredients.includes(search.toLowerCase())) ||
-          (a.nutriments && a.nutriments.includes(search.toLowerCase())) ||
-          (a.additives && a.additives.includes(search.toLowerCase()))
+          (a.additives_tags &&
+            a.additives_tags.includes("en:" + search.toLowerCase()))
       );
     },
     onFilterByScore(val: number) {
