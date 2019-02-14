@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-const numberOfRecipesPerPage = 9;
+const numberOfRecipesPerPage = 12;
 import Vue from "vue";
 import ListFilters from "@/components/ListFilters.vue";
 import Recipe from "@/models/recette";
