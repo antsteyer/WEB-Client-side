@@ -37,7 +37,7 @@
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
       </v-layout>
     </v-flex>
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog scrollable v-model="dialog" width="600">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{selectedIngredient}}</v-card-title>
 
@@ -149,7 +149,7 @@ export default Vue.extend({
     },
     getProductWithIngredient(ingredient: string) {
       this.loadProducts = true;
-      fetch("https://web-server-client.herokuapp.com/ingredients", {
+      fetch("https://web-server-client.herokuapp.com/recipe", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -165,7 +165,7 @@ export default Vue.extend({
         })
         .then(json => {
           this.productList = [];
-          json.forEach((el: any) => {
+          json[0].forEach((el: any) => {
             this.productList.push({ name: el.product_name, id: el.id });
           });
           this.loadProducts = false;

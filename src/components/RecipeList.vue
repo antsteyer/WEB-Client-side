@@ -1,7 +1,7 @@
 <template>
   <v-layout v-if="!loading" column align-center justify-start fill-height>
     <list-filters :filterByScore="false" @filterListByText="onFilterByText"/>
-    <v-list two-line v-if="recipesFiltered.length > 0">
+    <v-list v-if="recipesFiltered.length > 0">
       <template v-for="(item, index) in recipesFromPage">
         <v-list-tile
           :class="{'activeItem': itemSelected && itemSelected === item._id }"
@@ -94,8 +94,16 @@ export default Vue.extend({
     onFilterByText(search: string) {
       this.recipesFiltered = this.recipes.filter(
         (a: any) =>
-          a.name && a.name.toLowerCase().includes(search.toLowerCase())
+          (a.name && a.name.toLowerCase().includes(search.toLowerCase())) ||
+          (a.description &&
+            a.description.toLowerCase().includes(search.toLowerCase())) ||
+          (a.preparation &&
+            a.preparation.toLowerCase().includes(search.toLowerCase())) ||
+          (a.ingredients && a.ingredients.includes(search))
       );
+    },
+    refresh() {
+      this.getData();
     }
   }
 });

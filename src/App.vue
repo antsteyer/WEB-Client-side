@@ -3,7 +3,7 @@
     <v-app>
       <v-navigation-drawer app clipped>
         <data-list v-show="routePath.includes('home')"/>
-        <recipe-list v-show="routePath.includes('recipe')"/>
+        <recipe-list ref="recipelist" v-show="routePath.includes('recipe')"/>
       </v-navigation-drawer>
       <v-toolbar app clipped-left>
         <v-toolbar-side-icon>
@@ -16,7 +16,7 @@
       </v-toolbar>
       <v-content>
         <v-container fluid>
-          <router-view></router-view>
+          <router-view @refreshList="onRefreshList"></router-view>
         </v-container>
       </v-content>
       <!-- <v-footer app></v-footer> -->
@@ -36,6 +36,11 @@ export default Vue.extend({
   computed: {
     routePath(): string {
       return this.$route.path;
+    }
+  },
+  methods: {
+    onRefreshList() {
+      (this.$refs["recipelist"] as any).refresh();
     }
   }
 });

@@ -73,7 +73,7 @@ export default {
     name: "",
     nameRules: [
       v => !!v || "Nom requis",
-      v => (v && v.length <= 30) || "Nom doit être plus court que 30 caractères"
+      v => (v && v.length <= 40) || "Nom doit être plus court que 40 caractères"
     ],
     description: "",
     descriptionRules: [
@@ -124,6 +124,7 @@ export default {
 
         this.loading = false;
         if (!this.error) {
+          this.$emit("refreshList");
           this.$router.push({ path: "/recipe" });
         }
       }

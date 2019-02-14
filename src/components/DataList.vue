@@ -117,7 +117,11 @@ export default Vue.extend({
     },
     onFilterByText(search: string) {
       this.alimentsFiltered = this.aliments.filter(
-        (a: any) => a.name && a.name.includes(search)
+        (a: any) =>
+          (a.name && a.name.toLowerCase().includes(search.toLowerCase())) ||
+          (a.ingredients && a.ingredients.includes(search.toLowerCase())) ||
+          (a.nutriments && a.nutriments.includes(search.toLowerCase())) ||
+          (a.additives && a.additives.includes(search.toLowerCase()))
       );
     },
     onFilterByScore(val: number) {
