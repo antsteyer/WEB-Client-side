@@ -30,3 +30,9 @@ Vous pouvez maintenant voir l'application à l'adresse [http://localhost:8080/](
 ### Loïc ROSE
 
 ### Antoine STEYER
+
+- Initialisation de l'architecture du projet VueJS et installation de Vuetify
+- Création de la navigation interne à l'application
+- Création des listes de produits et de recettes
+- Ajout de filtres textuels et par score sur les différentes listes
+- Ajout d'une recette dans l'application
