@@ -25,15 +25,17 @@ Si vous souhaitez lancer notre front-end en local, voici les étapes à suivre:
 
 Vous pouvez maintenant voir l'application à l'adresse [http://localhost:8080/](http://localhost:8080/).
 
+Il est possible que des requêtes échoues lors de l'utilisation de l'application à cause des CORS policies alors qu'elles sont gérées du côté front-end et du côté back-end. Il suffit alors de rafraichir la page pour renvoyer les requêtes.
+
 ## Répartition des tâches
 
 ### Loïc ROSE
 
-* Affichage des details d'un produit,
-* Affichage des details d'une recette,
-* Ajout de la feature pour donner un prix dans un magasin pour un produit,
-* Filtre sur les magasins qui ont un produit par distance/prix du produit,
-* Ajout de la feature pour faire des commentaires sur une recette,
+- Affichage des details d'un produit,
+- Affichage des details d'une recette,
+- Ajout de la feature pour donner un prix dans un magasin pour un produit,
+- Filtre sur les magasins qui ont un produit par distance/prix du produit,
+- Ajout de la feature pour faire des commentaires sur une recette,
 
 ### Antoine STEYER
 
