@@ -1,34 +1,32 @@
-# web-client-side
+# WEB-Client-side
 
-## Project setup
-```
-yarn install
-```
+## Contributeurs
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+- Loïc Rose
+- Antoine Steyer
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+## Technologies utilisées
 
-### Run your tests
-```
-yarn run test
-```
+Le front-end a été développé avec le framework [VueJS](https://github.com/vuejs/vue). Les composants graphiques utilisés appartiennent à la bibliothèque [Vuetify](https://vuetifyjs.com/en/).
 
-### Lints and fixes files
-```
-yarn run lint
-```
+## Utilisation
 
-### Run your unit tests
-```
-yarn run test:unit
-```
+Notre front-end est disponible sur heroku à l'adresse suivante :
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[https://web-client-side.herokuapp.com/#/home
+](https://web-client-side.herokuapp.com/#/home)
+
+Si vous souhaitez lancer notre front-end en local, voici les étapes à suivre:
+
+1. git clone https://github.com/antsteyer/WEB-Client-side
+2. cd "le dossier cloné"
+3. yarn
+4. yarn run serve
+
+Vous pouvez maintenant voir l'application à l'adresse [http://localhost:8080/](http://localhost:8080/).
+
+## Répartition des tâches
+
+### Loïc ROSE
+
+### Antoine STEYER
