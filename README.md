@@ -29,6 +29,12 @@ Vous pouvez maintenant voir l'application à l'adresse [http://localhost:8080/](
 
 ### Loïc ROSE
 
+* Affichage des details d'un produit,
+* Affichage des details d'une recette,
+* Ajout de la feature pour donner un prix dans un magasin pour un produit,
+* Filtre sur les magasins qui ont un produit par distance/prix du produit,
+* Ajout de la feature pour faire des commentaires sur une recette,
+
 ### Antoine STEYER
 
 - Initialisation de l'architecture du projet VueJS et installation de Vuetify
